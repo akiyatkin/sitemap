@@ -1,0 +1,4 @@
+{
+	"require":"infra.php",
+	"conf":"akiyatkin\\sitemap\\Sitemap"
+}
