@@ -1,5 +1,5 @@
 {
-	"name":"akiyatkin/sitemape",
+	"name":"akiyatkin/sitemap",
 	"autoload": {
 		"psr-4": { "akiyatkin\\sitemape\\": "" }
 	},
