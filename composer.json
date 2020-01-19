@@ -1,7 +1,7 @@
 {
 	"name":"akiyatkin/sitemap",
 	"autoload": {
-		"psr-4": { "akiyatkin\\sitemape\\": "" }
+		"psr-4": { "akiyatkin\\sitemap\\": "" }
 	},
 	"require":{
 		"infrajs/config":"~1",
