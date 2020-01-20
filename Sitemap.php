@@ -149,7 +149,7 @@ class Sitemap {
 					if (!$pos['parent']) $loc = $opt['url'];
 					else $loc = $opt['url'].'/'.urlencode($pos['group_nick']);
 					$ans['Группы'][$title] = [
-						'title' => $title,
+						'title' => $pos['group'],
 						'loc' => $loc,
 						'time' => $pos['time'],
 						'lastmod' => date('Y-m-d',$pos['time']),
@@ -164,7 +164,7 @@ class Sitemap {
 
 				$title = $pos['producer'].' '.$pos['article'];
 				$ans['Модели'][$title] = [
-					'title' => $title,
+					'title' => $pos['article'],
 					'loc' => $opt['url'].'/'.urlencode($pos['producer_nick']).'/'.urlencode($pos['article_nick']),
 					'time' => $pos['time'],
 					'lastmod' => date('Y-m-d',$pos['time']),
