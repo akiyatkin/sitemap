@@ -1,4 +1,16 @@
 {
-	"require":"infra.php",
-	"conf":"akiyatkin\\sitemap\\Sitemap"
+	"conf":"akiyatkin\\sitemap\\Sitemap",
+	"plugins":{
+		"sitemap":"sitemap",
+		"pages":{
+			"form":{
+				"title":"Форма контактов"
+			}
+		},
+		"showcase":{
+			"url":"catalog",
+			"priority":0.5
+		},
+		"rubrics":true
+	}
 }
