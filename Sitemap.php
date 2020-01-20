@@ -12,6 +12,11 @@ use infrajs\access\Access;
 class Sitemap {
 	public static $conf = array();
 	public static function data() {
+		return Access::func(function (){
+			return Sitemap::_data();
+		});
+	}
+	public static function _data() {
 		$ans = array();
 		$conf = Sitemap::$conf;
 		$ans['pages'] = [];

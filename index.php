@@ -14,10 +14,14 @@ return Rest::get( function () {
 	$data = [];
 	$data['list'] = $list;
 	$data['host'] = $_SERVER['HTTP_HOST'];
-	$data['protocol'] = 'https';
+	$data['protocol'] = Sitemap::$conf['protocol'];
 	$html = Template::parse('-sitemap/layout.tpl', $data, 'XML');
+	
+	if (Ans::isReturn()) return $html;
+	
 	header('Content-type:application/xml; charset=utf-8');
-	return Ans::html($html);
+	echo $html;
+	
 });
 
 

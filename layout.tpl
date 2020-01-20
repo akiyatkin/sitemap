@@ -11,8 +11,9 @@
 </urlset>
 {xmlgroup:}{::xmlitem}
 {xmlitem:}<url>
-        <loc>{protocol}://{host}/{loc}</loc>
+        <loc>{protocol}://{host}{loc:slstr}</loc>
         <lastmod>{lastmod}</lastmod>
         <changefreq>{changefreq}</changefreq>
         <priority>{priority}</priority>
     </url>
+    {slstr:}/{.}

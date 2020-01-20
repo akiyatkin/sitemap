@@ -1,5 +1,6 @@
 {
 	"conf":"akiyatkin\\sitemap\\Sitemap",
+	"protocol":"http",
 	"plugins":{
 		"sitemap":"sitemap",
 		"pages":{
