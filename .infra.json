@@ -1,6 +1,8 @@
 {
+	"pub":["li"],
 	"conf":"akiyatkin\\sitemap\\Sitemap",
 	"protocol":"http",
+	"li":false,
 	"plugins":{
 		"sitemap":"sitemap",
 		"pages":{

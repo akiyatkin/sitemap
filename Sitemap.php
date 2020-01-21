@@ -102,7 +102,7 @@ class Sitemap {
 				'priority' => 1
 			];
 		}
-		if ($conf['plugins']['showcase']) {
+		if ($conf['plugins']['showcase'] && class_exists("Data")) {
 			$opt = $conf['plugins']['showcase'];
 			//$producers = Showcase::getProducers();
 			//Дата группы
