@@ -19,8 +19,8 @@ class Sitemap {
 	public static function _data() {
 		$ans = array();
 		$conf = Sitemap::$conf;
-		$ans['pages'] = [];
-		$ans['pages'][] = [
+		$ans['pages'] = ['list'=>[],'title'=>"Страницы"];
+		$ans['pages']['list'][] = [
 			'title' => 'Главная',
 			'loc' => '',
 			'time' => Access::adminTime(),
@@ -43,8 +43,8 @@ class Sitemap {
 
 				$list = Rubrics::list($dir);
 				foreach ($list as $p) {
-					$ans['pages'][] = [
-						'title' => $p['heading'] ? $p['heading']: $p['title'],
+					$ans['pages']['list'][] = [
+						'title' => isset($p['heading']) ? $p['heading']: $p['title'],
 						'loc' => $p['name'],
 						'time' => $p['modified'],
 						'lastmod' => date('Y-m-d', $p['modified']),
@@ -56,13 +56,13 @@ class Sitemap {
 			}
 			foreach(Rubrics::$conf['list'] as $key=>$opt) {
 				if ($opt['type'] == 'files') {
-					$ans['pages'][] = [
+					$ans['pages']['list'][] = [
 						'title' => $opt['title'],
 						'loc' => 'files'
 					];
 				}
 				if ($opt['type'] != 'list') continue;
-				$ans[$opt['title']] = [];
+				$ans[$opt['title']] = ['list'=>[],'src'=>$key,'title'=>$opt['title']];
 				
 				if (!empty($opt['dir'])) $dir = $opt['dir'];
 				else $dir = '~'.$key.'/';
@@ -70,7 +70,7 @@ class Sitemap {
 
 				$list = Rubrics::list($dir);
 				foreach ($list as $p) {
-					$ans[$opt['title']][] = [
+					$ans[$opt['title']]['list'][] = [
 						'title' => $p['heading'] ? $p['heading']: $p['title'],
 						'loc' => $key.'/'.$p['name'],
 						'time' => $p['modified'],
@@ -84,16 +84,18 @@ class Sitemap {
 		}
 
 		if ($conf['plugins']['pages']) {
+			//if (empty($ans['Страницы'])) = ['list'=>[],'title'=>'Страницы'];
 			foreach ($conf['plugins']['pages'] as $page => $opt) {
-				$ans['pages'][] = [
+				$ans['pages']['list'][] = [
 					'title' => $opt['title'],
 					'loc' => $page,
-					'changefreq' => "yearly",
-				];		
+					'changefreq' => "yearly"
+				];
 			}
 		}
+
 		if ($conf['plugins']['sitemap']) {
-			$ans['pages'][] = [
+			$ans['pages']['list'][] = [
 				'title' => 'Карта сайта',
 				'loc' => $conf['plugins']['sitemap'],
 				'time' => Access::adminTime(),
@@ -125,16 +127,16 @@ class Sitemap {
 				left join showcase_groups g on g.group_id = m.group_id
 				left join showcase_groups gp on g.parent_id = gp.group_id');
 
-			$ans['Производители'] = [];
-			$ans['Группы'] = [];
+			$ans['Производители'] = ['list'=>[],'title'=>'Производители'];
+			$ans['Группы'] = ['list'=>[],'title'=>'Группы'];
 			
-			$ans['Модели'] = [];
+			$ans['Модели'] = ['list'=>[],'title'=>'Модели'];
 			
 			
 			foreach ($list as $pos) {
 				$title = $pos['producer'];
-				if (empty($ans['Производители'][$title])) {
-					$ans['Производители'][$title] = [
+				if (empty($ans['Производители']['list'][$title])) {
+					$ans['Производители']['list'][$title] = [
 						'title' => $title,
 						'loc' => $opt['url'].'/'.urlencode($pos['producer_nick']),
 						'time' => $pos['time'],
@@ -143,17 +145,17 @@ class Sitemap {
 						'priority' => $opt['priority'] + (1 - $opt['priority'])/2
 					];
 				}
-				if ($ans['Производители'][$title]['time'] < $pos['time']) {
-					$ans['Производители'][$title]['time'] = $pos['time'];
-					$ans['Производители'][$title]['lastmod'] = date('Y-m-d', $pos['time']);
+				if ($ans['Производители']['list'][$title]['time'] < $pos['time']) {
+					$ans['Производители']['list'][$title]['time'] = $pos['time'];
+					$ans['Производители']['list'][$title]['lastmod'] = date('Y-m-d', $pos['time']);
 				}
 
 
 				$title = $pos['parent'].' / '.$pos['group'];
-				if (empty($ans['Группы'][$title])) {
+				if (empty($ans['Группы']['list'][$title])) {
 					if (!$pos['parent']) $loc = $opt['url'];
 					else $loc = $opt['url'].'/'.urlencode($pos['group_nick']);
-					$ans['Группы'][$title] = [
+					$ans['Группы']['list'][$title] = [
 						'title' => $pos['group'],
 						'loc' => $loc,
 						'time' => $pos['time'],
@@ -162,13 +164,13 @@ class Sitemap {
 						'priority' => $opt['priority'] + (1 - $opt['priority'])/2
 					];
 				}
-				if ($ans['Группы'][$title]['time'] < $pos['time']) {
-					$ans['Группы'][$title]['time'] = $pos['time'];
-					$ans['Группы'][$title]['lastmod'] = date('Y-m-d', $pos['time']);
+				if ($ans['Группы']['list'][$title]['time'] < $pos['time']) {
+					$ans['Группы']['list'][$title]['time'] = $pos['time'];
+					$ans['Группы']['list'][$title]['lastmod'] = date('Y-m-d', $pos['time']);
 				}
 
 				$title = $pos['producer'].' '.$pos['article'];
-				$ans['Модели'][$title] = [
+				$ans['Модели']['list'][$title] = [
 					'title' => $pos['article'],
 					'loc' => $opt['url'].'/'.urlencode($pos['producer_nick']).'/'.urlencode($pos['article_nick']),
 					'time' => $pos['time'],
@@ -177,14 +179,14 @@ class Sitemap {
 					'priority' => $opt['priority']
 				];	
 			}
-			ksort($ans['Группы']);
-			$ans['Группы'] = array_values($ans['Группы']);
+			ksort($ans['Группы']['list']);
+			$ans['Группы']['list'] = array_values($ans['Группы']['list']);
 
-			ksort($ans['Производители']);
-			$ans['Производители'] = array_values($ans['Производители']);
+			ksort($ans['Производители']['list']);
+			$ans['Производители']['list'] = array_values($ans['Производители']['list']);
 
-			ksort($ans['Модели']);
-			$ans['Модели'] = array_values($ans['Модели']);
+			ksort($ans['Модели']['list']);
+			$ans['Модели']['list'] = array_values($ans['Модели']['list']);
 
 		}
 		return $ans;
