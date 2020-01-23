@@ -94,19 +94,18 @@ class Sitemap {
 			}
 		}
 
-		if ($conf['plugins']['sitemap']) {
-			$ans['pages']['list'][] = [
-				'title' => 'Карта сайта',
-				'loc' => $conf['plugins']['sitemap'],
-				'time' => Access::adminTime(),
-				'lastmod' => date('Y-m-d',Access::adminTime()),
-				'changefreq' => "weekly",
-				'priority' => 1
-			];
-		}
+		
 		if ($conf['plugins']['showcase'] && class_exists("\\akiyatkin\\showcase\\Data")) {
 			$opt = $conf['plugins']['showcase'];
 			
+			$ans['pages']['list'][] = [
+				'title' => 'Каталог',
+				'loc' => 'catalog',
+				'time' => Access::adminTime(),
+				'lastmod' => date('Y-m-d',Access::adminTime()),
+				'changefreq' => "monthly",
+				'priority' => 0.25
+			];
 			
 			$list = Data::all('SELECT 
 				m.article_nick, 
@@ -183,6 +182,16 @@ class Sitemap {
 			ksort($ans['Модели']['list']);
 			$ans['Модели']['list'] = array_values($ans['Модели']['list']);
 
+		}
+		if ($conf['plugins']['sitemap']) {
+			$ans['pages']['list'][] = [
+				'title' => 'Карта сайта',
+				'loc' => $conf['plugins']['sitemap'],
+				'time' => Access::adminTime(),
+				'lastmod' => date('Y-m-d',Access::adminTime()),
+				'changefreq' => "weekly",
+				'priority' => 1
+			];
 		}
 		return $ans;
 	}
