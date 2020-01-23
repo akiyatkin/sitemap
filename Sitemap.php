@@ -104,13 +104,8 @@ class Sitemap {
 				'priority' => 1
 			];
 		}
-		if ($conf['plugins']['showcase'] && class_exists("Data")) {
+		if ($conf['plugins']['showcase'] && class_exists("\\akiyatkin\\showcase\\Data")) {
 			$opt = $conf['plugins']['showcase'];
-			//$producers = Showcase::getProducers();
-			//Дата группы
-			//Дата производителя
-			//Дата Модели - готово (каталог и прайс) (При связи с файлами можно проверять ещё)
-			//$groups = Showcase::getGroups();
 			
 			
 			$list = Data::all('SELECT 
