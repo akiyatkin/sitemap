@@ -71,7 +71,7 @@ class Sitemap {
 				$list = Rubrics::list($dir);
 				foreach ($list as $p) {
 					$ans[$opt['title']]['list'][] = [
-						'title' => $p['heading'] ? $p['heading']: $p['title'],
+						'title' => isset($p['heading']) ? $p['heading']: $p['title'],
 						'loc' => $key.'/'.$p['name'],
 						'time' => $p['modified'],
 						'lastmod' => date('Y-m-d', $p['modified']),
