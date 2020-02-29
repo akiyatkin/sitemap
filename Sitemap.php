@@ -58,7 +58,11 @@ class Sitemap {
 				if ($opt['type'] == 'files') {
 					$ans['pages']['list'][] = [
 						'title' => $opt['title'],
-						'loc' => 'files'
+						'loc' => 'files',
+						'time' => Access::adminTime(),
+						'lastmod' => date('Y-m-d',Access::adminTime()),
+						'changefreq' => "yearly",
+						'priority' => 0.5
 					];
 				}
 				if ($opt['type'] != 'list') continue;
@@ -89,7 +93,10 @@ class Sitemap {
 				$ans['pages']['list'][] = [
 					'title' => $opt['title'],
 					'loc' => $page,
-					'changefreq' => "yearly"
+					'time' => Access::adminTime(),
+					'lastmod' => date('Y-m-d', Access::adminTime()),
+					'changefreq' => "yearly",
+					'priority' => 0.5
 				];
 			}
 		}
