@@ -1,3 +1,7 @@
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Главная</a></li> 
+    <li class="breadcrumb-item active">Карта сайта</li>
+</ol>
 <h1>Карта сайта</h1>
 {data::rubs}
 {rubs:}

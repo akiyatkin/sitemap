@@ -102,7 +102,7 @@ class Sitemap {
 		}
 
 		
-		if ($conf['plugins']['showcase'] && class_exists("\\akiyatkin\\showcase\\Data")) {
+		if (!empty($conf['plugins']['showcase']) && class_exists("\\akiyatkin\\showcase\\Data")) {
 			$opt = $conf['plugins']['showcase'];
 			
 			$ans['pages']['list'][] = [
