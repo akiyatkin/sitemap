@@ -1,7 +1,6 @@
 <?php
 namespace akiyatkin\sitemap;
 use infrajs\ans\Ans;
-use infrajs\once\Once;
 use infrajs\path\Path;
 use infrajs\config\Config;
 use infrajs\rubrics\Rubrics;
@@ -12,7 +11,7 @@ use infrajs\access\Access;
 class Sitemap {
 	public static $conf = array();
 	public static function data() {
-		return Access::func(function (){
+		return Access::cache(__FILE__, function (){
 			return Sitemap::_data();
 		});
 	}
