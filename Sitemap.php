@@ -7,9 +7,11 @@ use infrajs\rubrics\Rubrics;
 use akiyatkin\showcase\Showcase;
 use akiyatkin\showcase\Data;
 use infrajs\access\Access;
+use infrajs\event\Event;
 
 class Sitemap {
 	public static $conf = array();
+	public static $ans = array();
 	public static function data() {
 		return Access::cache(__FILE__, function (){
 			return Sitemap::_data();
@@ -199,6 +201,22 @@ class Sitemap {
 				'priority' => 1
 			];
 		}
-		return $ans;
+		/*
+			Sitemap
+			Sitemap::$ans['new'] = [
+				'src'=>'catalog',
+				'title'=>'Раздел',
+				'list'=>[]
+			];
+				'title' => 'Главная',
+				'loc' => 'catalog/groups',
+				'time' => Access::adminTime(),
+				'lastmod' => date('Y-m-d', Access::adminTime()),
+				'changefreq' => "monthly",
+				'priority' => 0.5
+		*/
+		Sitemap::$ans = $ans;
+		Event::fire('Sitemap.ans');
+		return Sitemap::$ans;
 	}
 }

@@ -6,11 +6,10 @@
 {data::rubs}
 {rubs:}
 {src?:headingsrc?(title?:heading?)}
-{~conf.sitemap.li?:libr?list::item}
+<p>{~conf.sitemap.li?:libr?list::item}</p>
 {heading:}<h2 class="mt-3">{title}</h2>
 {headingsrc:}
-
-	<h2 class="mt-3"><a style="color:inherit;" href="{src}">{~key}</a></h2>
+	<h2 class="mt-3"><a style="color:inherit;" href="{src}">{title|~key}</a></h2>
 {item:}<a href="/{loc}">{title}</a>, 
 {itembr:}<li><a href="/{loc}">{title}</a></li>
 {libr:}
