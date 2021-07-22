@@ -2,6 +2,8 @@
 namespace akiyatkin\sitemap;
 use infrajs\ans\Ans;
 use infrajs\path\Path;
+use infrajs\load\Load;
+use infrajs\sequence\Seq;
 use infrajs\config\Config;
 use infrajs\rubrics\Rubrics;
 use akiyatkin\showcase\Showcase;
@@ -32,7 +34,7 @@ class Sitemap {
 		
 		
 		
-		if ($conf['plugins']['rubrics']) {
+		if (!empty($conf['plugins']['rubrics'])) {
 			//Дата изменения фала
 			if (Rubrics::$conf['main']) {
 				$key = Rubrics::$conf['main'];
@@ -88,7 +90,7 @@ class Sitemap {
 			}
 		}
 
-		if ($conf['plugins']['pages']) {
+		if (!empty($conf['plugins']['pages'])) {
 			//if (empty($ans['Страницы'])) = ['list'=>[],'title'=>'Страницы'];
 			foreach ($conf['plugins']['pages'] as $page => $opt) {
 				$ans['pages']['list'][] = [
@@ -191,12 +193,31 @@ class Sitemap {
 			$ans['Модели']['list'] = array_values($ans['Модели']['list']);
 
 		}
-		if ($conf['plugins']['sitemap']) {
+		if (!empty($conf['plugins']['export'])) {
+			foreach ($conf['plugins']['export'] as $file => $paths) {
+				$data = Load::loadJSON($file);
+				foreach ($paths as $path) {
+					$list = Seq::get($data, $path);
+					foreach ($list as $loc => $item) {
+						if (empty($item['title'])) continue;
+						$ans['pages']['list'][] = [
+							'title' => $item['title'],
+							'loc' => $loc,
+							'time' => Access::adminTime(),
+							'lastmod' => date('Y-m-d', Access::adminTime()),
+							'changefreq' => "monthly",
+							'priority' => 0.5
+						];
+					}
+				}
+			}
+		}
+		if (!empty($conf['plugins']['sitemap'])) {
 			$ans['pages']['list'][] = [
 				'title' => 'Карта сайта',
 				'loc' => $conf['plugins']['sitemap'],
 				'time' => Access::adminTime(),
-				'lastmod' => date('Y-m-d',Access::adminTime()),
+				'lastmod' => date('Y-m-d', Access::adminTime()),
 				'changefreq' => "weekly",
 				'priority' => 1
 			];
