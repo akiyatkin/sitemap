@@ -7,10 +7,10 @@ use akiyatkin\sitemap\Sitemap;
 
 
 return Rest::get( function () {
-	$data = Sitemap::data();
+	$data = Sitemap::data(Ans::REQ('lang'));
 	return Ans::ans($data);
 },'xml', function () {
-	$list = Sitemap::data();
+	$list = Sitemap::data(Ans::REQ('lang'));
 	$data = [];
 	$data['list'] = $list;
 	$data['host'] = $_SERVER['HTTP_HOST'];

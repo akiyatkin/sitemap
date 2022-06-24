@@ -14,12 +14,12 @@ use infrajs\event\Event;
 class Sitemap {
 	public static $conf = array();
 	public static $ans = array();
-	public static function data() {
-		return Access::cache(__FILE__, function (){
-			return Sitemap::_data();
-		});
+	public static function data($lang = false) {
+		return Access::cache(__FILE__, function ($lang){
+			return Sitemap::_data($lang);
+		},[$lang]);
 	}
-	public static function _data() {
+	public static function _data($lang = false) {
 		$ans = array();
 		$conf = Sitemap::$conf;
 		$ans['pages'] = ['list'=>[],'title'=>"Страницы"];
@@ -44,7 +44,7 @@ class Sitemap {
 				else $dir = '~'.$key.'/';
 
 
-				$list = Rubrics::list($dir);
+				$list = Rubrics::list($dir, 'articles', $lang);
 				foreach ($list as $p) {
 					$ans['pages']['list'][] = [
 						'title' => isset($p['heading']) ? $p['heading']: $p['title'],
@@ -75,7 +75,7 @@ class Sitemap {
 				else $dir = '~'.$key.'/';
 
 
-				$list = Rubrics::list($dir);
+				$list = Rubrics::list($dir, 'articles', $lang);
 				foreach ($list as $p) {
 					$ans[$opt['title']]['list'][] = [
 						'title' => isset($p['heading']) ? $p['heading']: $p['title'],
